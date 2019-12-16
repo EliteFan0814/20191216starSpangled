@@ -43,7 +43,7 @@ export default new Router({
           name: 'FirstClass',
           component: () => import('@/views/manage/FirstClass'),
           meta: {
-            title: '一级分类管理'
+            title: '一级分类'
           }
         },
 
@@ -53,7 +53,7 @@ export default new Router({
           name: 'Goods',
           component: () => import('@/views/manage/Goods'),
           meta: {
-            title: '商城商品管理'
+            title: '商城商品'
           }
         },
 
@@ -63,7 +63,7 @@ export default new Router({
           name: 'Exchange',
           component: () => import('@/views/manage/Exchange'),
           meta: {
-            title: '兑换区商品管理'
+            title: '兑换区商品'
           }
         },
 
@@ -93,7 +93,7 @@ export default new Router({
           name: 'MemberShopping',
           component: () => import('@/views/order/MemberShopping'),
           meta: {
-            title: '会员商城购物订单'
+            title: '会员商城订单'
           }
         },
 
@@ -127,6 +127,25 @@ export default new Router({
           }
         },
 
+        // 业务员管理 级别管理
+        {
+          path: '/salesMan/SalesManLevel',
+          name: 'SalesManLevel',
+          component: () => import('@/views/salesMan/SalesManLevel'),
+          meta: {
+            title: '级别管理'
+          }
+        },
+        // 业务员管理 二维码管理
+        {
+          path: '/salesMan/SalesManQR',
+          name: 'SalesManQR',
+          component: () => import('@/views/salesMan/SalesManQR'),
+          meta: {
+            title: '二维码管理'
+          }
+        },
+
         // 系统设置
         {
           path: '/settings/System',
@@ -138,14 +157,14 @@ export default new Router({
         },
 
         // 收款设置
-        {
-          path: '/settings/Collection',
-          name: 'Collection',
-          component: () => import('@/views/settings/Collection'),
-          meta: {
-            title: '收款设置'
-          }
-        },
+        // {
+        //   path: '/settings/Collection',
+        //   name: 'Collection',
+        //   component: () => import('@/views/settings/Collection'),
+        //   meta: {
+        //     title: '收款设置'
+        //   }
+        // },
       ]
     }
   ]

@@ -1,7 +1,6 @@
 const navList = {
   state: {
-    list: [
-      {
+    list: [{
         title: '统计',
         index: '/',
         icon: require('@/assets/-svg/home.svg'),
@@ -14,19 +13,19 @@ const navList = {
       },
 
       {
-        title: '一级分类管理',
+        title: '一级分类',
         index: '/manage/FirstClass',
         icon: require('@/assets/-svg/class.svg'),
       },
 
       {
-        title: '商城商品管理',
+        title: '商城商品',
         index: '/manage/Goods',
         icon: require('@/assets/-svg/goods.svg'),
       },
 
       {
-        title: '兑换区商品管理',
+        title: '兑换区商品',
         index: '/manage/Exchange',
         icon: require('@/assets/-svg/goods.svg'),
       },
@@ -44,7 +43,7 @@ const navList = {
       },
 
       {
-        title: '会员商城购物订单',
+        title: '会员商城订单',
         index: '/order/MemberShopping',
         icon: require('@/assets/-svg/order.svg'),
       },
@@ -53,6 +52,22 @@ const navList = {
         title: '会员兑换订单',
         index: '/order/MemberExchange',
         icon: require('@/assets/-svg/order.svg'),
+      },
+
+      {
+        title: '业务员管理',
+        index: '/salesMan',
+        icon: require('@/assets/-svg/business.svg'),
+        children: [
+          {
+            title: '级别管理',
+            index: '/salesMan/SalesManLevel',
+          },
+          {
+            title: '二维码管理',
+            index: '/salesMan/SalesManQR',
+          },
+        ]
       },
 
       {
@@ -73,11 +88,7 @@ const navList = {
         icon: require('@/assets/-svg/system.svg'),
       },
 
-      {
-        title: '收款设置',
-        index: '/settings/Collection',
-        icon: require('@/assets/-svg/Collection.svg'),
-      },
+
 
 
 
@@ -97,7 +108,7 @@ const navList = {
       //     },
       //   ]
       // },
- 
+
       // 订单管理
       // {
       //   title: '订单管理',
@@ -168,7 +179,7 @@ const navList = {
       //       title: '用户协议',
       //       index: '/article/RegistAgreement',
       //     },
-          
+
       //     {
       //       title: '使用帮助',
       //       index: '/article/UsingHelp',
@@ -197,10 +208,10 @@ const navList = {
       //       title: '芝麻粒设置',
       //       index: '/systemSetting/ZhimaliSetting',
       //     },
-          // {
-          //   title: '优惠券设置',
-          //   index: '/systemSetting/CouponSetting',
-          // },
+      // {
+      //   title: '优惠券设置',
+      //   index: '/systemSetting/CouponSetting',
+      // },
       //     {
       //       title: '奖金设置',
       //       index: '/systemSetting/BonusSetting',
@@ -216,7 +227,7 @@ const navList = {
       //   index: '/systemUser/systemUserManage',
       //   icon: require('@/assets/-svg/agent.svg'),
       // },
-      
+
       // {
       //   title: '网站信息配置',
       //   index: '/system/system',
