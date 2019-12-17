@@ -1,62 +1,32 @@
 <template>
   <div>
     <el-card>
-      <div slot="header"
-        :class="$style.header">
+      <div slot="header" :class="$style.header">
         <div :class="$style.search">
           <span>搜索：</span>
-          <el-input v-model="id"
-            placeholder="订单号筛选"
-            @change="filterData"
-            clearable />
+          <el-input v-model="id" placeholder="订单号筛选" @change="filterData" clearable />
         </div>
         <div>
-          <el-input v-model="searchPhone"
-            placeholder="会员手机号筛选"
-            @change="filterData"
-            clearable />
+          <el-input v-model="searchPhone" placeholder="会员手机号筛选" @change="filterData" clearable />
         </div>
         <div>
-          <el-input v-model="searchKey"
-            placeholder="商品名称筛选"
-            @change="filterData"
-            clearable />
+          <el-input v-model="searchKey" placeholder="商品名称筛选" @change="filterData" clearable />
         </div>
         <div>
-          <el-select placeholder="订单状态筛选"
-            v-model="orderState"
-            @change="filterData"
-            clearable>
-            <el-option v-for="item in orderStatus"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"></el-option>
+          <el-select placeholder="订单状态筛选" v-model="orderState" @change="filterData" clearable>
+            <el-option v-for="item in orderStatus" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
         </div>
-        <!-- <div>
-          <el-date-picker v-model="dates"
-            @change="filterData"
-            :picker-options="pickerOptions"
-            type="datetimerange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"></el-date-picker>
-        </div> -->
-        <el-button @click="filterData"
-          type="primary">
+        <el-button @click="filterData" type="primary">
           搜索
           <i class="el-icon-search"></i>
         </el-button>
       </div>
 
-      <el-table :data="orderData" @expand-change="testExpand"
-        ref="orderData"
-        style="width: 100%">
+      <el-table :data="orderData" @expand-change="testExpand" ref="orderData" style="width: 100%">
         <el-table-column type="expand">
           <template slot-scope="props">
-            <el-form label-position="left"
-              inline
-              class="demo-table-expand">
+            <el-form label-position="left" inline :class="$style['demo-table-expand']">
               <el-form-item label="联系人：">
                 <span>{{ props.row.contact }}</span>
               </el-form-item>
@@ -87,62 +57,42 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column align="center"
-          min-width="120"
-          label="会员信息">
+        <el-table-column align="center" min-width="120" label="会员信息">
           <template slot-scope="{row}">
-            <MemberInfo :avatar="row.memberPhoto"
-              :name="row.memberName"
-              :phone="row.memberPhone"></MemberInfo>
+            <MemberInfo :avatar="row.memberPhoto" :name="row.memberName" :phone="row.memberPhone"></MemberInfo>
           </template>
         </el-table-column>
-        <el-table-column label="订单号"
-          align="center"
-          min-width="120">
+        <el-table-column label="订单号" align="center" min-width="120">
           <template slot-scope="{row}">{{row.id}}</template>
         </el-table-column>
 
-        <el-table-column label="商品名称"
-          align="center">
+        <el-table-column label="商品名称" align="center">
           <template slot-scope="{row}">{{row.goodsName}}</template>
         </el-table-column>
 
-        <el-table-column label="数量"
-          align="center">
+        <el-table-column label="数量" align="center">
           <template slot-scope="{row}">{{row.goodsCount}}</template>
         </el-table-column>
 
-        <el-table-column label="价格"
-          align="center">
+        <el-table-column label="价格" align="center">
           <template slot-scope="{row}">{{row.price}}</template>
         </el-table-column>
-        <el-table-column label="会员电话"
-          align="center">
+        <el-table-column label="会员电话" align="center">
           <template slot-scope="{row}">{{row.memberPhone}}</template>
         </el-table-column>
-        <el-table-column label="创建时间"
-          align="center"
-          min-width="100">
+        <el-table-column label="创建时间" align="center" min-width="100">
           <template slot-scope="{row}">{{row.createDate}}</template>
         </el-table-column>
-        <el-table-column label="订单状态"
-          align="center">
+        <el-table-column label="订单状态" align="center">
           <template slot-scope="{row}">{{row.statusStr}}</template>
         </el-table-column>
 
-        <el-table-column label="操作"
-          min-width="180"
-          align="center">
+        <el-table-column label="操作" min-width="180" align="center">
           <template slot-scope="{row}">
-            <el-button @click="detailInfo(row)"
-              size="mini"
-              type="primary">
+            <el-button @click="detailInfo(row)" size="mini" type="primary">
               详情
             </el-button>
-            <el-button v-if="row.status === 10"
-              @click="ship(row)"
-              size="mini"
-              type="success">
+            <el-button v-if="row.status === 10" @click="ship(row)" size="mini" type="success">
               发货
             </el-button>
             <!-- <el-button v-if="row.status > 10"
@@ -165,9 +115,7 @@
       <!-- <Wuliu v-if="showWuliu"
         :propitem="item"
         @close="closeDia"></Wuliu> -->
-      <BasePagination :max="maxPage"
-        :totalCount="totalCount"
-        :now.sync="nowPage"></BasePagination>
+      <BasePagination :max="maxPage" :totalCount="totalCount" :now.sync="nowPage"></BasePagination>
     </el-card>
   </div>
 </template>
@@ -182,8 +130,6 @@ export default {
   },
   data() {
     return {
-      xiangqingType:'primary',
-      xiangqingText:'详情',
       id: '',
       searchPhone: '',
       searchKey: '',
@@ -211,7 +157,7 @@ export default {
     this.getData()
   },
   methods: {
-    testExpand(row){
+    testExpand(row) {
       console.log(row)
     },
     getData() {
@@ -292,24 +238,23 @@ export default {
     flex-grow: 1;
   }
 }
+
+.demo-table-expand {
+  width: 50%;
+  > * {
+    width: 100%;
+    margin-bottom: 0px;
+    label {
+      width: 100px;
+      color: #99a9bf;
+    }
+  }
+}
 </style>
 <style lang="scss" scoped>
 .inp {
   margin-right: 10px;
   /* margin-top: -10px */
-}
-
-.demo-table-expand {
-  font-size: 0;
-}
-.demo-table-expand label {
-  width: 900px;
-  color: #99a9bf;
-}
-.demo-table-expand .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
-  width: 100%;
 }
 </style>
 

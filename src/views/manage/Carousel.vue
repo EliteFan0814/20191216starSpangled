@@ -1,95 +1,56 @@
 <template>
   <div>
     <el-card>
-      <el-button type="primary"
-        @click="addCarouselSet()">新增轮播图</el-button>
+      <el-button type="primary" @click="addCarouselSet">新增轮播图</el-button>
 
-      <el-table :data="tableData"
-        m-b-10>
-        <el-table-column label="轮播图"
-          align="center">
+      <el-table :data="tableData" m-b-10>
+        <el-table-column label="轮播图" align="center">
           <template slot-scope="{ row }">
-            <img :src="row.pic"
-              class="imp">
+            <img :src="row.pic" class="imp">
           </template>
         </el-table-column>
-        <el-table-column label="标题"
-          align="center">
+        <el-table-column label="标题" align="center">
           <template slot-scope="{ row }">{{row.title}}</template>
         </el-table-column>
-        <el-table-column label="跳转商品ID"
-          align="center">
+        <el-table-column label="跳转商品ID" align="center">
           <template slot-scope="{ row }">{{row.refId?row.refId:'暂未设置'}}</template>
         </el-table-column>
-        <!-- <el-table-column label="跳转类型"
-          align="center">
-          <template slot-scope="{ row }"
-            v-if="row.module">{{row.module}}</template>
-        </el-table-column> -->
-        <el-table-column label="权重"
-          align="center">
+        <el-table-column label="排序" align="center">
           <template slot-scope="{ row }">{{row.sort}}</template>
         </el-table-column>
 
-        <el-table-column label="操作"
-          align="center"
-          min-width="100">
+        <el-table-column label="操作" align="center" min-width="100">
           <template slot-scope="{row}">
-            <el-button size="mini"
-              @click="edit(row)"
-              type="primary">
+            <el-button size="mini" @click="edit(row)" type="primary">
               编辑
               <i class="el-icon-edit"></i>
             </el-button>
-            <el-button size="mini"
-              @click="delCarousel(row.id)"
-              type="danger">
+            <el-button size="mini" @click="delCarousel(row.id)" type="danger">
               删除
               <i class="el-icon-delete"></i>
             </el-button>
-            <!-- <el-button size="mini"
-              @click="jumpGood(row)"
-              type="success">
-              商品详情
-            </el-button> -->
           </template>
         </el-table-column>
       </el-table>
-
-      <!-- <BasePagination :max="maxPage" :now.sync="nowPage"></BasePagination> -->
     </el-card>
-    <CarouselEdit v-if="isEditShow"
-      @close="closeDia"
-      :item="item"
-      :fenlei="fenlei"></CarouselEdit>
-    <!-- <CustomerDetails v-if="formShow"
-      @close="closeDia"
-      :item="sltItem"
-      :fenlei="fenlei" /> -->
+    <CarouselEdit v-if="isEditShow" @close="closeDia" :item="item"></CarouselEdit>
   </div>
 </template>
 
 <script>
-//import BasePagination from "@/components/BasePagination";
-// import CustomerDetails from './components/carouselSet/CustomerDetails'
-// import { constants } from 'crypto'
 import CarouselEdit from './CarouselEdit'
 
 export default {
   components: {
-    CarouselEdit,
-    //BasePagination,
+    CarouselEdit
   },
   created() {
     this.getData()
   },
   data() {
     return {
-      fenlei: [],
       item: {},
-      formShow: false,
       isEditShow: false, //新增/编辑轮播图
-      sltItem: {},
       tableData: [],
       maxPage: 1,
       nowPage: 1
@@ -111,12 +72,12 @@ export default {
       })
     },
     // 跳转商品详情
-    jumpGood(data) {
-      this.$router.push({
-        path: '/mallManage/GoodsManage',
-        query: { data: data }
-      })
-    },
+    // jumpGood(data) {
+    //   this.$router.push({
+    //     path: '/mallManage/GoodsManage',
+    //     query: { data: data }
+    //   })
+    // },
     filterChange() {
       this.nowPage === 1 ? this.getData() : (this.nowPage = 1)
     },
@@ -128,13 +89,12 @@ export default {
     addCarouselSet() {
       this.item = {}
       this.isEditShow = true
-      // this.formShow = true
     },
     delCarousel(id) {
       this.$confirm('确定要删除吗？', '提示？', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        closeOnClickModal:false,
+        closeOnClickModal: false,
         type: 'warning',
         center: true
       })
@@ -160,13 +120,8 @@ export default {
           })
         })
     },
-    newData() {
-      //this.getData();
-      this.formShow = false
-    },
-    
+
     closeDia(value) {
-      this.formShow = false
       this.isEditShow = false
       if (value) this.getData()
     }

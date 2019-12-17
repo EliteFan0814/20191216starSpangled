@@ -1,81 +1,70 @@
 <template>
-  <el-dialog title="添加商品"
-    :visible.sync="isDialog"
-    :close-on-click-modal="false"
-    @close="close"
-    :center="true"
-    width="50%">
-    <el-form :rules="rules"
-      :model="item"
-      ref="item"
-      label-position="right"
-      label-width="15%">
-      <el-form-item label="商品标题："
-        prop="name">
-        <el-input class="inp"
-          v-model="item.name"></el-input>
-      </el-form-item>
-      <el-form-item label="商品分类："
-        prop="value21">
-        <el-select class="inp"
-          v-model="item.value21"
-          placeholder="分类">
-          <el-option v-for="item1 in fenlei"
-            :key="item1.value"
-            :label="item1.label"
-            :value="item1.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="商品价格："
-        prop="price">
-        <el-input class="inp"
-          v-model="item.price"
-          placeholder=""></el-input>
-      </el-form-item>
-      <el-form-item label="运费："
-        prop="shipfee">
-        <el-input class="inp"
-          v-model="item.shipfee"
-          placeholder></el-input>
-      </el-form-item>
-      <el-form-item label="排序权重："
-        prop="sort">
-        <div>
-          <el-slider class="slider"
-            v-model="item.sort"
-            :max="255"
-            show-input></el-slider>
-        </div>
-      </el-form-item>
-      <el-form-item label="上传缩略图："
-        prop="thumb">
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-          :http-request="uploadSectionFile">
-          <img v-if="item.thumb"
-            :src="item.thumb"
-            class="avatar img">
+  <el-dialog title="添加商品" :visible.sync="isDialog" :close-on-click-modal="false" @close="close" :center="true" width="55%">
+    <el-form :rules="rules" :model="item" ref="item" label-position="right">
+
+      <div class="format-item">
+        <el-form-item label="名称：" prop="name">
+          <el-input class="inp" placeholder="请输入名称" v-model="item.name"></el-input>
+        </el-form-item>
+        <el-form-item label="零售价：" prop="retailPrice">
+          <el-input class="inp" v-model="item.retailPrice" placeholder="请输入零售价"></el-input>
+        </el-form-item>
+
+        <el-form-item label="期次限购数量" prop="periodLimit">
+          <el-input class="inp" v-model="item.periodLimit" placeholder="请输入期次限购数量"></el-input>
+        </el-form-item>
+        <el-form-item label="期次库存" prop="periodCount">
+          <el-input class="inp" v-model="item.periodCount" placeholder="请输入期次库存"></el-input>
+        </el-form-item>
+      </div>
+      <el-divider content-position="left">批发设置</el-divider>
+      <div class="format-item">
+        <el-form-item label="批发价：" prop="wholesalePrice">
+          <el-input class="inp" v-model="item.wholesalePrice" placeholder="请输入批发价"></el-input>
+        </el-form-item>
+        <el-form-item label="批发价所需优惠券数量：" prop="wholesaleCoupon">
+          <el-input class="inp" v-model="item.wholesaleCoupon" placeholder="请输入优惠券数量"></el-input>
+        </el-form-item>
+        <el-form-item label="批发价所需芝麻数量：" prop="wholesaleSesame">
+          <el-input class="inp" v-model="item.wholesaleSesame" placeholder="请输入芝麻数量"></el-input>
+        </el-form-item>
+      </div>
+      <el-divider content-position="left">赠送优惠券设置</el-divider>
+      <div class="format-item">
+        <el-form-item label="零售区赠送优惠券：" prop="couponGiftRetail">
+          <el-input class="inp" v-model="item.couponGiftRetail" placeholder="请输入赠送数量"></el-input>
+        </el-form-item>
+        <el-form-item label="寄卖失败赠送优惠券：" prop="couponSellFailed">
+          <el-input class="inp" v-model="item.couponSellFailed" placeholder="请输入赠送数量"></el-input>
+        </el-form-item>
+      </div>
+      <el-divider content-position="left">赠送芝麻设置</el-divider>
+      <div class="format-item">
+        <el-form-item label="首次下单赠送芝麻：" prop="sesameFistOrder">
+          <el-input class="inp" v-model="item.sesameFistOrder" placeholder="请输入赠送数量"></el-input>
+        </el-form-item>
+        <el-form-item label="零售区购买赠送推荐人：" prop="sesameGiftRetail">
+          <el-input class="inp" v-model="item.sesameGiftRetail" placeholder="请输入赠送数量"></el-input>
+        </el-form-item>
+        <el-form-item label="寄卖失败赠送：" prop="sesameSellFailed">
+          <el-input class="inp" v-model="item.sesameSellFailed" placeholder="请输入赠送数量"></el-input>
+        </el-form-item>
+      </div>
+      <el-divider></el-divider>
+      <el-form-item label="缩略图：" prop="thumb">
+        <el-upload action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :http-request="uploadSectionFile">
+          <img v-if="item.thumb" :src="item.thumb" class="avatar img">
           <i v-else>点击图片重新上传</i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="内容："
-        prop="content">
+      <el-form-item label="图文详情：" prop="content">
         <!-- <quillEditor v-model="item.textarea" class="quillEditor"></quillEditor> -->
-        <Editor id="tinymce"
-          v-model="item.content"
-          @changed="(value)=>{item.content=value}"
-          class="quillEditor"></Editor>
-
+        <Editor id="tinymce" v-model="item.content" @changed="(value)=>{item.content=value}" class="quillEditor"></Editor>
       </el-form-item>
     </el-form>
-    <span slot="footer"
-      align="right"
-      class="dialog-footer">
+    <span slot="footer" align="right" class="dialog-footer">
       <el-button @click="isDialog= false">取 消</el-button>
-      <el-button type="primary"
-        @click="submit('item')">确 定</el-button>
+      <el-button type="primary" @click="submit('item')">确 定</el-button>
     </span>
   </el-dialog>
 </template>
@@ -93,57 +82,71 @@ export default {
   },
   props: ['fenlei'],
   data() {
+    let self = this
     return {
+      prop_good: {
+        //lazy: true,
+        expandTrigger: 'hover',
+        value: 'id',
+        label: 'name'
+        // lazyLoad(node, resolve){
+        //   if(node.level <2){
+        //     self.$http.get("/manage/category/lists?id=" + node.value).then(res => {
+        //     const nodes = res.data.list.map(o1 => {
+        //         return {value: o1.id, label: o1.name};
+        //     });
+        //     resolve(nodes);
+        //     });
+        //   }else{
+        //     resolve('')
+        //   }
+        // }
+      },
       item: {
-        value21: '',
-        content: '',
-        value: '',
-        shipfee: '',
         name: '',
-        price: '',
+        retailPrice: '',
+        wholesalePrice: '',
+        periodLimit: '',
+        periodCount: '',
+        wholesaleCoupon: '',
+        wholesaleSesame: '',
         thumb: '',
-        sort: 255,
-        picurl: ''
+        content: '',
+        pics: ''
+        // value21: [],
+        // value: "",
+        // price_maket: "",
+        // price_member: "",
+        // price_store: "",
+        // price_agent: "",
+        // limit_store: "",
+        // limit_member: "",
+        // limit_agent: "",
+        // score: "",
+        // sort: 255,
+        // picurl: ""
       },
       src: '',
       isDialog: true,
       rules: {
-        name: [
-          {
-            required: true,
-            message: '请输入商品名称'
-          }
+        name: [{ required: true, message: '请输入商品名称' }],
+        retailPrice: [{ required: true, message: '请输入零售价' }],
+        wholesalePrice: [{ required: true, message: '请输入批发价' }],
+        periodLimit: [{ required: true, message: '期次限购数量' }],
+        periodCount: [{ required: true, message: '期次库存' }],
+        wholesaleCoupon: [
+          { required: true, message: '请输入批发单件所需优惠券' }
         ],
-        price: [
-          {
-            required: true,
-            message: '请输入商品价格'
-          }
+        wholesaleSesame: [
+          { required: true, message: '请输入批发单件所需芝麻' }
         ],
-        thumb: [
-          {
-            required: true,
-            message: '请上传缩略图'
-          }
-        ],
-        shipfee: [
-          {
-            required: true,
-            message: '请输入运费'
-          }
-        ],
-        value21: [
-          {
-            required: true,
-            message: '请选择分类'
-          }
-        ],
-        content: [
-          {
-            required: true,
-            message: '请输入内容'
-          }
-        ]
+        thumb: [{ required: true, message: '请上传缩略图' }],
+        content: [{ required: true, message: '请编写商品详情' }],
+        couponGiftRetail: [{ required: true, message: '请输入赠送数量' }],
+        couponSellFailed: [{ required: true, message: '请输入赠送数量' }],
+        sesameFistOrder: [{ required: true, message: '请输入赠送数量' }],
+        sesameGiftRetail: [{ required: true, message: '请输入赠送数量' }],
+        sesameSellFailed: [{ required: true, message: '请输入赠送数量' }]
       }
     }
   },
@@ -151,50 +154,65 @@ export default {
     // method:{
     //   tinymce.init({}),
     // },
-    editorInit: {
-      language_url: '/tinymce/zh_CN.js',
-      language: 'zh_CN',
-      skin_url: '/tinymce/skins/lightgray',
-      height: 300
-    },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
-    },
+    // editorInit: {
+    //   language_url: '/tinymce/zh_CN.js',
+    //   language: 'zh_CN',
+    //   skin_url: '/tinymce/skins/lightgray',
+    //   height: 300
+    // },
+    // handleAvatarSuccess(res, file) {
+    // },
 
     uploadSectionFile: function(param) {
       var fileObj = param.file
       var form = new FormData()
-      form.append('file', fileObj)
-      this.$http.post('/manage/image/upload', form).then(res => {
-        this.item.thumb = res.data.filepath
-      })
+      form.append('files', fileObj)
+      this.$http
+        .post('/api/Files/UploadFiles?isPublic=true', form)
+        .then(res => {
+          this.item.thumb = res.pathList[0]
+        })
     },
     close() {
       this.$emit('close')
     },
     submit() {
-      if (this.item.price < 0) {
-        this.$message.error('商品价格不能小于零!')
-        return
-      }
-      if (this.item.shipfee < 0) {
-        this.$message.error('运费不能小于零!')
-        return
-      }
+      // if(this.item.price < 0){
+      //   this.$message.error("商品价格不能小于零!")
+      //   return
+      // }
+      // if(this.item.shipfee < 0){
+      //   this.$message.error("运费不能小于零!")
+      //   return
+      // }
       this.$refs.item.validate(valid => {
         if (!valid) return
-        let params = new URLSearchParams()
-        params.append('cate_id', this.item.value21)
-        params.append('title', this.item.name)
-        params.append('price', this.item.price)
-        params.append('shipfee', this.item.shipfee)
-        params.append('summary', '123')
-        params.append('price_describe', '123')
-        params.append('thumb', this.item.thumb)
-        params.append('content', this.item.content)
-        params.append('sort', this.item.sort)
-        this.$http.post('', params).then(res => {
-          this.$emit('getData', '1')
+        let params = new FormData()
+        // let params = new URLSearchParams();
+        params.append('Name', this.item.name)
+        params.append('RetailPrice', this.item.retailPrice)
+        params.append('WholesalePrice', this.item.wholesalePrice)
+        params.append('periodLimit', this.item.periodLimit)
+        params.append('periodCount', this.item.periodCount)
+        params.append('WholesaleCoupon', this.item.wholesaleCoupon)
+        params.append('WholesaleSesame', this.item.wholesaleSesame)
+        params.append('Thumb', this.item.thumb)
+        params.append('Content', this.item.content)
+        params.append('Pics', this.item.pics)
+        params.append('couponGiftRetail', this.item.couponGiftRetail)
+        params.append('couponSellFailed', this.item.couponSellFailed)
+        params.append('sesameFistOrder', this.item.sesameFistOrder)
+        params.append('sesameGiftRetail', this.item.sesameGiftRetail)
+        params.append('sesameSellFailed', this.item.sesameSellFailed)
+
+        this.$http.post('/api/Goods/Create', params).then(res => {
+          if (res.success) {
+            this.$message({
+              type: 'success',
+              message: '添加成功!'
+            })
+            this.$emit('close', '1')
+          }
         })
       })
     }
@@ -202,7 +220,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .icon {
   border: 1px dashed #888;
   width: 200px;
@@ -242,6 +260,25 @@ i {
 }
 .ship {
   margin-left: 30px;
+}
+.format-item {
+  // border: 1px solid red;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  > * {
+    // flex-grow: 1;
+    width: 40%;
+    // border: 1px solid green;
+    display: flex;
+    justify-content: flex-end;
+    white-space: nowrap;
+    align-items: center;
+    /deep/ input {
+      // border: 1px solid red;
+      width: 200px;
+    }
+  }
 }
 </style>
 

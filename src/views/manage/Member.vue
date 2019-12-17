@@ -15,46 +15,45 @@
         </el-button>
       </div>
       <el-table :data="memberList">
-        <el-table-column align="center" min-width="150" label="会员信息">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline :class="$style['demo-table-expand']">
+              <el-form-item label="注册时间：">
+                <span>时间时间时间时间时间时间时间时间时时间时时间时时间时时间时间时间时间时间</span>
+              </el-form-item>
+              <el-form-item label="注册时间：">
+                <span>{{ props.row.regDate }}</span>
+              </el-form-item>
+              <el-form-item label="注册时间：">
+                <span>{{ props.row.regDate }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" min-width="120" label="会员信息">
           <template slot-scope="{row}">
             <MemberInfo :avatar="row.photoUrl" :name="row.name" :phone="row.mobile"></MemberInfo>
           </template>
         </el-table-column>
-        <!-- <el-table-column label="会员昵称"
-          align="center">
-          <template slot-scope="{row}">{{row.name}}</template>
-        </el-table-column>
-        <el-table-column label="账号(手机号)"
-          align="center">
-          <template slot-scope="{row}">{{row.mobile}}</template>
-        </el-table-column> -->
         <el-table-column label="会员等级" align="center">
           <template slot-scope="{row}">{{row.levelStr?row.levelStr:"暂无"}}</template>
         </el-table-column>
-        <el-table-column label="推荐码" align="center">
-          <template slot-scope="{row}">{{row.promotionCode}}</template>
+        <el-table-column label="推荐码" align="center" prop="promotionCode">
         </el-table-column>
-        <el-table-column label="推荐人数" align="center">
-          <template slot-scope="{row}">{{row.childCount}}</template>
+        <el-table-column label="推荐人数" align="center" prop="childCount">
         </el-table-column>
-        <el-table-column label="团队人数" align="center">
-          <template slot-scope="{row}">{{row.groupCount}}</template>
+        <el-table-column label="团队人数" align="center" prop="groupCount">
         </el-table-column>
-        <el-table-column label="奖金账户余额" align="center">
-          <template slot-scope="{row}">{{row.bnous}}</template>
+        <el-table-column label="奖金余额" align="center" prop="bnous">
         </el-table-column>
-        <el-table-column label="累计奖金总额" align="center">
-          <template slot-scope="{row}">{{row.totalBnous}}</template>
-        </el-table-column>
-        <el-table-column label="团队业绩" align="center">
-          <template slot-scope="{row}">{{row.groupMoney}}</template>
+        <el-table-column label="团队业绩" align="center" prop="groupMoney">
         </el-table-column>
         <el-table-column label="会员状态" align="center">
           <template slot-scope="{row}">{{row.isLockedStr}}</template>
         </el-table-column>
-        <el-table-column label="注册时间" align="center" min-width="100px">
-          <template slot-scope="{row}">{{row.regDate}}</template>
-        </el-table-column>
+        <!-- <el-table-column label="注册时间" align="center" min-width="100px" prop="regDate">
+        </el-table-column> -->
+
         <el-table-column label="操作" width="400px" align="center">
           <template slot-scope="{row}">
             <el-button @click="resetPwd(row)" size="mini" type="warning">
@@ -265,5 +264,16 @@ export default {
 }
 el-table-column {
   height: 50px;
+}
+.demo-table-expand {
+  width: 50%;
+  > * {
+    width: 100%;
+    margin-bottom: 0px;
+    label {
+      width: 90px;
+      color: #99a9bf;
+    }
+  }
 }
 </style>

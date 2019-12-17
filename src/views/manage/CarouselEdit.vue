@@ -1,77 +1,25 @@
 <template>
-  <el-card>
-    <el-dialog iconClass="el-icon-info"
-      :title="item.id?'编辑轮播图':'新增轮播图'"
-      width="500px"
-      :visible.sync="isDialog"
-      :close-on-click-modal="false"
-      @close="close">
-      <el-form :model="innerItem"
-        :rules="rules"
-        ref="innerItem"
-        label-position="right"
-        label-width="100px">
-        <el-form-item label="标题："
-          prop="title">
-          <el-input v-model="innerItem.title"
-            placeholder="请输入标题"></el-input>
+  <!-- <el-card> -->
+    <el-dialog iconClass="el-icon-info" :title="item.id?'编辑轮播图':'新增轮播图'" width="500px" :visible.sync="isDialog" 
+    :close-on-click-modal="false" @close="close">
+      <el-form :model="innerItem" :rules="rules" ref="innerItem" label-position="right" label-width="100px">
+        <el-form-item label="标题：" prop="title">
+          <el-input v-model="innerItem.title" placeholder="请输入标题"></el-input>
         </el-form-item>
-        <el-form-item label="跳转商品："
-          prop="refId">
-          <el-autocomplete class="inline-input"
-            v-model="searchLGoodName"
-            :fetch-suggestions="querySearch"
-            placeholder="请输入商品名"
-            :trigger-on-focus="false"
-            @select="handleSelect"></el-autocomplete>
+        <el-form-item label="跳转商品：" prop="refId">
+          <el-autocomplete class="inline-input" v-model="searchGoodName" :fetch-suggestions="querySearch" placeholder="请输入商品名" 
+          :trigger-on-focus="false" @select="handleSelect"></el-autocomplete>
+        </el-form-item>
 
-          <!-- <el-input v-model="innerItem.refId"
-            placeholder="请输入商品ID"></el-input> -->
+        <el-form-item label="权重：" prop="sort">
+          <el-slider class="leixing" :max="255" v-model="innerItem.sort" show-input></el-slider>
         </el-form-item>
-        <!-- <el-form-item label="轮播图类型" prop="jump_type">
-          <el-select class="leixing" v-model="item.jump_type" placeholder="跳转类型" @change="leixingChange()">
-            <el-option
-              v-for="item in fenlei"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item> -->
-        <!-- <el-form-item label="跳转对象"
-          prop="jump_id">
-          <el-select class="leixing"
-            v-model="item.jump_id"
-            placeholder="跳转对象"
-            filterable
-            remote
-            :remote-method="remoteMethod">
-            <el-option v-for="item in chanpin"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"></el-option>
-          </el-select>
-        </el-form-item> -->
-
-        <el-form-item label="权重："
-          prop="sort">
-          <el-slider class="leixing"
-            :max="255"
-            v-model="innerItem.sort"
-            show-input></el-slider>
-        </el-form-item>
-        <el-form-item label="缩略图："
-          prop="pic">
-          <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-            :show-file-list="false"
-            :http-request="uploadSectionFile">
-            <div class="src"
-              v-if="innerItem.pic">
-              <img :src="innerItem.pic"
-                class="avatar">
+        <el-form-item label="缩略图：" prop="pic">
+          <el-upload action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :http-request="uploadSectionFile">
+            <div class="src" v-if="innerItem.pic">
+              <img :src="innerItem.pic" class="avatar">
             </div>
-            <div class="img"
-              v-else>
+            <div class="img" v-else>
               <span>点击图片重新上传</span>
             </div>
           </el-upload>
@@ -79,26 +27,23 @@
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button type
-          @click="isDialog = false">取消</el-button>
-        <el-button type="primary"
-          @click="submit">确 定</el-button>
+        <el-button type @click="isDialog = false">取消</el-button>
+        <el-button type="primary" @click="submit">确 定</el-button>
       </span>
     </el-dialog>
-  </el-card>
+  <!-- </el-card> -->
 </template>
 
 <script>
-import { constants } from 'crypto'
+// import { constants } from 'crypto'
 export default {
-  props: ['item', 'fenlei'],
+  props: ['item'],
   data() {
     return {
-      loading: false,
       searchPage: 1,
       searchPageSize: 10000,
       searchList: [],
-      searchLGoodName: '',
+      searchGoodName: '',
       chanpin: [],
       isDialog: true,
       innerItem: {
@@ -129,19 +74,14 @@ export default {
           })
           .then(res => {
             if (res.success) {
-              this.searchLGoodName = res.value.name
+              this.searchGoodName = res.value.name
             }
           })
       }
     }
   },
   methods: {
-    leixingChange() {
-      this.item.jump_info = null
-      this.item.jump_id = ''
-      this.chanpin = []
-    },
-    querySearch(queryString, cb) {
+    querySearch(queryString, callback) {
       this.$http
         .get('/api/Goods/GoodsList', {
           params: {
@@ -156,88 +96,20 @@ export default {
             for (let i of this.searchList) {
               i.value = i.name
             }
-            cb(this.searchList)
+            callback(this.searchList)
           }
         })
-      // var restaurants = this.restaurants
-      // var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-      // 调用 callback 返回建议列表的数据
-      // cb(results)
     },
     handleSelect(item) {
       this.innerItem.refId = item.id
-      this.searchLGoodName = item.name
+      this.searchGoodName = item.name
     },
-    createFilter(queryString) {
-      return restaurant => {
-        return (
-          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
-          0
-        )
-      }
-    },
-    remoteMethod(query) {
-      if (query !== '') {
-        this.loading = true
-        setTimeout(() => {
-          this.loading = false
-          if (this.item.jump_type == 'goods') {
-            this.$http
-              .get(
-                '/manage/goods/lists?page=1&rows=10&cate_id&state&pick&keywords=' +
-                  query
-              )
-              .then(res => {
-                this.chanpin = res.data.list.map(item => {
-                  return { value: item.id, label: item.name }
-                })
-              })
-          }
-          if (this.item.jump_type == 'category') {
-            this.$http
-              .get('/manage/category/lists?keywords=' + query)
-              .then(res => {
-                this.chanpin = res.data.list.map(item => {
-                  return { value: item.cate_id, label: item.name }
-                })
-              })
-          }
-          if (this.item.jump_type == 'limit') {
-            this.$http
-              .get(
-                '/manage/limit_activity/lists?page=1&rows=10&cate_id&state&pick&keywords=' +
-                  query
-              )
-              .then(res => {
-                this.chanpin = res.data.list.map(item => {
-                  return { value: item.activity_id, label: item.title }
-                })
-              })
-          }
-          if (this.item.jump_type == 'lucky') {
-            this.$http
-              .get(
-                '/manage/lucky_activity/lists?page=1&rows=10&cate_id&state&pick&keywords=' +
-                  query
-              )
-              .then(res => {
-                this.chanpin = res.data.list.map(item => {
-                  return { value: item.activity_id, label: item.name }
-                })
-              })
-          }
-        }, 100)
-      } else {
-        this.chanpin = []
-      }
-    },
-    // handleAvatarSuccess(res, file) {
-    //   this.imageUrl = URL.createObjectURL(file.raw)
-    // },
+   
     close() {
       this.$emit('close')
     },
 
+    // 图片上传函数
     uploadSectionFile: function(param) {
       var fileObj = param.file
       var form = new FormData()
@@ -248,6 +120,7 @@ export default {
           this.innerItem.pic = res.pathList[0]
         })
     },
+
     submit() {
       this.$refs.innerItem.validate(valid => {
         if (!valid) return
