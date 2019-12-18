@@ -1,112 +1,94 @@
 <template>
   <div class="login-container">
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      class="login-form"
-      :rules="rules"
-      label-position="left"
-    >
+    <el-form ref="loginForm" :model="loginForm" class="login-form" :rules="rules" label-position="left">
       <!-- <h3 class="title">{{$config.logintitle}}</h3> -->
       <img src="../icons/png/logo.png">
       <el-form-item prop="username">
-        <el-input v-model="loginForm.username" placeholder="用户名"/>
+        <el-input v-model="loginForm.username" placeholder="用户名" />
       </el-form-item>
 
       <el-form-item prop="password">
-        <el-input
-          :type="pwdType"
-          v-model="loginForm.password"
-          placeholder="密码"
-          @keyup.enter.native="handleLogin"
-        />
+        <el-input :type="pwdType" v-model="loginForm.password" placeholder="密码" @keyup.enter.native="handleLogin" />
       </el-form-item>
 
       <el-form-item>
-        <el-button
-          :loading="loading"
-          type="primary"
-          style="width:100%;"
-          @click.native.prevent="handleLogin"
-        >登 录</el-button>
+        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">登 录</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations } from 'vuex'
 export default {
-  name: "Login",
-  created(){
-    
-  },
+  name: 'Login',
+  created() {},
   data() {
     return {
       loginForm: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       },
 
       loading: false,
-      pwdType: "password",
+      pwdType: 'password',
 
       rules: {
         username: [
-          { required: true, message: "请填写用户名", trigger: "blur" }
+          { required: true, message: '请填写用户名', trigger: 'blur' }
         ],
-        password: [{ required: true, message: "请填写密码", trigger: "blur" }]
+        password: [{ required: true, message: '请填写密码', trigger: 'blur' }]
       }
-    };
+    }
   },
 
   methods: {
-    ...mapMutations(["LOG_IN"]),
+    ...mapMutations(['LOG_IN']),
 
     showPwd() {
-      if (this.pwdType === "password") {
-        this.pwdType = "";
+      if (this.pwdType === 'password') {
+        this.pwdType = ''
       } else {
-        this.pwdType = "password";
+        this.pwdType = 'password'
       }
     },
 
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true;
-          this.login();
+          this.loading = true
+          this.login()
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
 
     login() {
       this.$http
-        .post("/api/Login/AuthenticateLoginName", {
+        .post('/api/Login/AuthenticateLoginName', {
           loginName: this.loginForm.username,
           pwd: this.loginForm.password
         })
         .then(res => {
-          this.$store.state.username = this.loginForm.username;
-          if (res.message == "ok") {
+          this.$store.state.username = this.loginForm.username
+          if (res.message == 'ok') {
             // this.$http.get("/manage/common/info").then(res => {
             //   this.$store.state.userGrade = res.data.name;
             // });
             this.LOG_IN({
               token: res.token
-            });
-            this.$router.push("/");
+            })
+            this.$router.push('/')
           }
-          this.loading = false;
+          this.loading = false
         })
         .catch(err => {
-          this.loading = false;
-          this.$router.push("/login");
-        });
+          this.loading = false
+          this.$router.push('/login')
+        })
 
-      //this.$store.state.username = this.loginForm.username;        
+      //this.$store.state.username = this.loginForm.username;
       // this.$router.push({
       //   path:"/",
       //   query: {
@@ -115,7 +97,7 @@ export default {
       // });
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -150,7 +132,7 @@ $bg: #2d3a4b;
     font-weight: bold;
   }
 }
-img{
+img {
   margin: 20px 30% 40px 29%;
   width: 210px;
   height: 60px;

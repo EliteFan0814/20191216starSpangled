@@ -10,7 +10,7 @@
       <el-form-item label="商品图片：" prop="thumb">
         <el-upload action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :http-request="uploadSectionFile">
           <img v-if="innerItem.thumb" :src="innerItem.thumb" class="avatar img">
-          <i v-else>点击图片重新上传</i>
+          <i v-else class="myiclass">点击上传图片</i>
         </el-upload>
       </el-form-item>
       <el-form-item label="图文详情：" prop="content">
@@ -129,6 +129,13 @@ img {
   margin-bottom: 100px;
   height: 400px;
   width: 700px;
+}
+.myiclass {
+  width: 150px;
+  height: 150px;
+  line-height: 150px;
+  border: 1px dashed black;
+  display: block;
 }
 </style>
 
