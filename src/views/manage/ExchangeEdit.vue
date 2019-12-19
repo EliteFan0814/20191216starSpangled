@@ -1,19 +1,8 @@
 <template>
-  <el-dialog :title="item.title"
-    :visible.sync="isDialog"
-    :close-on-click-modal="false"
-    width="50%"
-    :center="true"
-    @close="close">
-    <el-form label-position="right"
-      label-width="150px"
-      :rules="rules"
-      :model="editData"
-      ref="editData">
-      <el-form-item label="商品标题："
-        prop="title">
-        <el-input class="inp"
-          v-model="editData.title"></el-input>
+  <el-dialog :title="item.title" :visible.sync="isDialog" :close-on-click-modal="false" width="50%" :center="true" @close="close">
+    <el-form label-position="right" label-width="150px" :rules="rules" :model="editData" ref="editData">
+      <el-form-item label="商品标题：" prop="title">
+        <el-input class="inp" v-model="editData.title"></el-input>
       </el-form-item>
       <!-- <el-form-item label="品牌名称">
         <el-input class="inp" v-model="editData.price"></el-input>
@@ -21,35 +10,23 @@
       <!-- <el-form-item label="商品类型">
         <el-input class="inp" v-model="item.cate_name"></el-input>
       </el-form-item> -->
-      <el-form-item label="所属分类："
-        prop="cate_id">
-        <el-select class="inp"
-          v-model="editData.cate_id"
-          placeholder="分类">
-          <el-option v-for="item in fenleis"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"></el-option>
+      <el-form-item label="所属分类：" prop="cate_id">
+        <el-select class="inp" v-model="editData.cate_id" placeholder="分类">
+          <el-option v-for="item in fenleis" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="价格："
-        prop="price">
-        <el-input class="inp"
-          v-model="editData.price"></el-input>
+      <el-form-item label="价格：" prop="price">
+        <el-input class="inp" v-model="editData.price"></el-input>
       </el-form-item>
-      <el-form-item label="销量："
-        prop="sales_number">
-        <el-input class="inp"
-          v-model.number="editData.sales_number"></el-input>
+      <el-form-item label="销量：" prop="sales_number">
+        <el-input class="inp" v-model.number="editData.sales_number"></el-input>
       </el-form-item>
       <!-- <el-form-item label="销量：">
         <el-input class="inp" v-model="editData.sales_number"></el-input>
       </el-form-item> -->
       <!-- 显示运费 -->
-      <el-form-item label="运费："
-        prop="shipfee">
-        <el-input class="inp"
-          v-model="editData.shipfee"></el-input>
+      <el-form-item label="运费：" prop="shipfee">
+        <el-input class="inp" v-model="editData.shipfee"></el-input>
       </el-form-item>
       <!-- <el-form-item label="推荐状态：">
         <el-radio v-model="pick" label='1'>推荐</el-radio>
@@ -59,41 +36,25 @@
         <el-radio v-model="status" label="1">显示</el-radio>
         <el-radio v-model="status" label="0">不显示</el-radio>
       </el-form-item> -->
-      <el-form-item label="排序权重："
-        prop="sort">
+      <el-form-item label="排序权重：" prop="sort">
         <div class="block sliderbox">
-          <el-slider class="slider"
-            v-model="editData.sort"
-            :max="255"
-            show-input></el-slider>
+          <el-slider class="slider" v-model="editData.sort" :max="255" show-input></el-slider>
         </div>
       </el-form-item>
-      <el-form-item label="上传缩略图："
-        prop="thumb">
-        <el-upload class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :http-request="uploadSectionFile">
-          <img v-if="src"
-            :src="src"
-            class="avatar img">
+      <el-form-item label="上传缩略图：" prop="thumb">
+        <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess" :http-request="uploadSectionFile">
+          <img v-if="src" :src="src" class="avatar img">
           <i v-else>点击图片重新上传</i>
           <div></div>
         </el-upload>
       </el-form-item>
-      <el-form-item label="内容："
-        prop="content">
-        <ExchangeEdit id="ad"
-          :content="editData.content"
-          @changed="(value)=>{editData.content=value}"></ExchangeEdit>
+      <el-form-item label="内容：" prop="content">
+        <ExchangeEdit id="ad" :content="editData.content" @changed="(value)=>{editData.content=value}"></ExchangeEdit>
       </el-form-item>
     </el-form>
-    <span slot="footer"
-      class="dialog-footer">
+    <span slot="footer" class="dialog-footer">
       <el-button @click="isDialog = false">取 消</el-button>
-      <el-button type="primary"
-        @click="submit(item)">确 定</el-button>
+      <el-button type="primary" @click="submit(item)">确 定</el-button>
     </span>
   </el-dialog>
 </template>

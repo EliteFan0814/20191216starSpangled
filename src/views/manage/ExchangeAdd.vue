@@ -1,81 +1,40 @@
 <template>
-  <el-dialog title="添加商品"
-    :visible.sync="isDialog"
-    :close-on-click-modal="false"
-    @close="close"
-    :center="true"
-    width="50%">
-    <el-form :rules="rules"
-      :model="item"
-      ref="item"
-      label-position="right"
-      label-width="15%">
-      <el-form-item label="商品标题："
-        prop="name">
-        <el-input class="inp"
-          v-model="item.name"></el-input>
+  <el-dialog title="添加商品" :visible.sync="isDialog" :close-on-click-modal="false" @close="close" :center="true" width="50%">
+    <el-form :rules="rules" :model="item" ref="item" label-position="right" label-width="15%">
+      <el-form-item label="商品标题：" prop="name">
+        <el-input class="inp" v-model="item.name"></el-input>
       </el-form-item>
-      <el-form-item label="商品分类："
-        prop="value21">
-        <el-select class="inp"
-          v-model="item.value21"
-          placeholder="分类">
-          <el-option v-for="item1 in fenlei"
-            :key="item1.value"
-            :label="item1.label"
-            :value="item1.value"></el-option>
+      <el-form-item label="商品分类：" prop="value21">
+        <el-select class="inp" v-model="item.value21" placeholder="分类">
+          <el-option v-for="item1 in fenlei" :key="item1.value" :label="item1.label" :value="item1.value"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="商品价格："
-        prop="price">
-        <el-input class="inp"
-          v-model="item.price"
-          placeholder=""></el-input>
+      <el-form-item label="商品价格：" prop="price">
+        <el-input class="inp" v-model="item.price" placeholder=""></el-input>
       </el-form-item>
-      <el-form-item label="运费："
-        prop="shipfee">
-        <el-input class="inp"
-          v-model="item.shipfee"
-          placeholder></el-input>
+      <el-form-item label="运费：" prop="shipfee">
+        <el-input class="inp" v-model="item.shipfee" placeholder></el-input>
       </el-form-item>
-      <el-form-item label="排序权重："
-        prop="sort">
+      <el-form-item label="排序权重：" prop="sort">
         <div>
-          <el-slider class="slider"
-            v-model="item.sort"
-            :max="255"
-            show-input></el-slider>
+          <el-slider class="slider" v-model="item.sort" :max="255" show-input></el-slider>
         </div>
       </el-form-item>
-      <el-form-item label="上传缩略图："
-        prop="thumb">
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-          :http-request="uploadSectionFile">
-          <img v-if="item.thumb"
-            :src="item.thumb"
-            class="avatar img">
+      <el-form-item label="上传缩略图：" prop="thumb">
+        <el-upload action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" :http-request="uploadSectionFile">
+          <img v-if="item.thumb" :src="item.thumb" class="avatar img">
           <i v-else>点击图片重新上传</i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="内容："
-        prop="content">
+      <el-form-item label="内容：" prop="content">
         <!-- <quillEditor v-model="item.textarea" class="quillEditor"></quillEditor> -->
-        <Editor id="tinymce"
-          v-model="item.content"
-          @changed="(value)=>{item.content=value}"
-          class="quillEditor"></Editor>
+        <Editor id="tinymce" v-model="item.content" @changed="(value)=>{item.content=value}" class="quillEditor"></Editor>
 
       </el-form-item>
     </el-form>
-    <span slot="footer"
-      align="right"
-      class="dialog-footer">
+    <span slot="footer" align="right" class="dialog-footer">
       <el-button @click="isDialog= false">取 消</el-button>
-      <el-button type="primary"
-        @click="submit('item')">确 定</el-button>
+      <el-button type="primary" @click="submit('item')">确 定</el-button>
     </span>
   </el-dialog>
 </template>
