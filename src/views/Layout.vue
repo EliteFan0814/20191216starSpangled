@@ -1,17 +1,14 @@
 <template>
   <div>
-
     <div :class="navStyle">
       <!-- 左侧 nav 栏 -->
       <TheNav></TheNav>
     </div>
-
     <div :class="bodyStyle">
       <div :class="$style.topBar">
         <!-- 顶部 topbar 栏 -->
         <TheTopbar></TheTopbar>
       </div>
-
       <div :class="$style.view">
         <keep-alive :include="cachedViews">
           <!-- 中间主体 -->
@@ -19,7 +16,6 @@
         </keep-alive>
       </div>
     </div>
-
   </div>
 </template>
 

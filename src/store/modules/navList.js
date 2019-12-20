@@ -12,22 +12,30 @@ const navList = {
         icon: require('@/assets/-svg/picture.svg'),
       },
 
-      {
-        title: '一级分类',
-        index: '/manage/FirstClass',
-        icon: require('@/assets/-svg/class.svg'),
-      },
+      
 
       {
-        title: '商城商品',
-        index: '/manage/Goods',
+        title: '商城管理',
+        index: '/manage',
         icon: require('@/assets/-svg/goods.svg'),
+          children: [
+            {
+              title: '一级分类',
+              index: '/manage/FirstClass',
+              // icon: require('@/assets/-svg/class.svg'),
+            },
+            {
+              title: '商品管理',
+              index: '/manage/Goods',
+              // icon: require('@/assets/-svg/goods.svg'),
+            },
+          ]
       },
 
       {
-        title: '兑换区商品',
+        title: '兑换管理',
         index: '/manage/Exchange',
-        icon: require('@/assets/-svg/goods.svg'),
+        icon: require('@/assets/-svg/exchange.svg'),
       },
 
       {
@@ -57,9 +65,8 @@ const navList = {
       {
         title: '业务员管理',
         index: '/salesMan',
-        icon: require('@/assets/-svg/business.svg'),
-        children: [
-          {
+        icon: require('@/assets/-svg/manageMan.svg'),
+        children: [{
             title: '级别管理',
             index: '/salesMan/SalesManLevel',
           },

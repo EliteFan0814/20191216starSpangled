@@ -1,49 +1,49 @@
 <template>
-    <el-card>
-      <div slot="header" :class="$style.header">
-        <div :class="$style.search">
-          <span>搜索：</span>
-          <el-input v-model="keywords" placeholder="输入商品名称" @change="filterData" clearable />
-        </div>
-        <el-button @click="filterData" type="primary">
-          搜索
-          <i class="el-icon-search"></i>
-        </el-button>
-        <el-button @click="goodsAdd" class="add" type="primary">
-          添加商品
-        </el-button>
+  <el-card>
+    <div slot="header" :class="$style.header">
+      <div :class="$style.search">
+        <span>搜索：</span>
+        <el-input v-model="keywords" placeholder="输入商品名称" @change="filterData" clearable />
       </div>
+      <el-button @click="filterData" type="primary">
+        搜索
+        <i class="el-icon-search"></i>
+      </el-button>
+      <el-button @click="goodsAdd" class="add" type="primary">
+        添加商品
+      </el-button>
+    </div>
 
-      <el-table :data="goodsData">
+    <el-table :data="goodsData">
 
-        <el-table-column label="商品图片" align="center" class="imgbox">
-          <template slot-scope="{row}">
-            <img :src="row.thumb" class="img">
-          </template>
-        </el-table-column>
-        <el-table-column label="商品名称" min-width="120" align="center" prop="name">
-        </el-table-column>
-        <el-table-column label="零售价" align="center" prop="retailPrice">
-        </el-table-column>
-        <el-table-column label="商品ID" align="center" prop="id">
-        </el-table-column>
+      <el-table-column label="商品图片" align="center" class="imgbox">
+        <template slot-scope="{row}">
+          <img :src="row.thumb" class="img">
+        </template>
+      </el-table-column>
+      <el-table-column label="商品名称" min-width="120" align="center" prop="name">
+      </el-table-column>
+      <el-table-column label="零售价" align="center" prop="retailPrice">
+      </el-table-column>
+      <el-table-column label="商品ID" align="center" prop="id">
+      </el-table-column>
 
-        <el-table-column label="操作" width="300" align="center">
-          <template slot-scope="{row}">
-            <el-button @click="goodsEdit(row)" size="mini" type="primary">
-              编辑
-            </el-button>
-            <el-button @click="del(row)" size="mini" type="danger">
-              删除
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- 弹出对话框 -->
-      <!-- <tianjia v-if="isAddShow" @close="closeDia"></tianjia> -->
-      <GoodsEdit v-if="isEditShow" @close="closeDia" :item="item"></GoodsEdit>
-      <BasePagination :max="totalPage" :now.sync="nowPage" :totalCount="totalCount"></BasePagination>
-    </el-card>
+      <el-table-column label="操作" width="300" align="center">
+        <template slot-scope="{row}">
+          <el-button @click="goodsEdit(row)" size="mini" type="primary">
+            编辑
+          </el-button>
+          <el-button @click="del(row)" size="mini" type="danger">
+            删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 弹出对话框 -->
+    <!-- <tianjia v-if="isAddShow" @close="closeDia"></tianjia> -->
+    <GoodsEdit v-if="isEditShow" @close="closeDia" :item="item"></GoodsEdit>
+    <BasePagination :max="totalPage" :now.sync="nowPage" :totalCount="totalCount"></BasePagination>
+  </el-card>
 </template>
 <script>
 // import tianjia from './GoodsAdd'
@@ -64,7 +64,7 @@ export default {
       totalPage: 1,
       nowPage: 1,
       pageSize: 10,
-      totalCount:0,
+      totalCount: 0,
       item: {}
     }
   },

@@ -18,6 +18,7 @@ const request = axios.create({
 request.interceptors.request.use(
   config => {
     // 如果是 post 请求
+    console.log('config',config)
     if (config.method == "post") {
       // 如果请求参数不是 FormData 类型
       if (!(config.data instanceof FormData)) {
@@ -43,6 +44,7 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
   res => {
+    console.log('res',res)
     if (res.data.success || res.data.code === 1) {
       // successcess
       if (res.data.msg && res.data.msg != "ok") Message.success(res.data.msg)
@@ -56,12 +58,11 @@ request.interceptors.response.use(
   },
   err => {
     // token 失效
-
+    console.log('error',err)
     if (err.response) {
       if (err.response.status === 401) {
         Message.error('请重新登陆')
         store.commit('LOG_OUT')
-        router.push('/login')
       }
       if (err.response.status === 403) {
         Message.error('没有操作权限')
