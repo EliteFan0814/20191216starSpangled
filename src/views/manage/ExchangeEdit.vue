@@ -1,168 +1,122 @@
 <template>
-  <el-dialog :title="item.title" :visible.sync="isDialog" :close-on-click-modal="false" width="50%" :center="true" @close="close">
-    <el-form label-position="right" label-width="150px" :rules="rules" :model="editData" ref="editData">
-      <el-form-item label="商品标题：" prop="title">
-        <el-input class="inp" v-model="editData.title"></el-input>
+  <el-dialog :title="item.id?'编辑当前商品':'添加商品'" :visible.sync="isDialog" :close-on-click-modal="false" width="950px" center @close="close">
+    <el-form :model="innerItem" ref="innerItem" :rules="rules" label-position="right" label-width="150px">
+      <el-form-item label="商品名称：" prop="name">
+        <el-input class="inp" placeholder="请输入名称" v-model="innerItem.name"></el-input>
       </el-form-item>
-      <!-- <el-form-item label="品牌名称">
-        <el-input class="inp" v-model="editData.price"></el-input>
-      </el-form-item> -->
-      <!-- <el-form-item label="商品类型">
-        <el-input class="inp" v-model="item.cate_name"></el-input>
-      </el-form-item> -->
-      <el-form-item label="所属分类：" prop="cate_id">
-        <el-select class="inp" v-model="editData.cate_id" placeholder="分类">
-          <el-option v-for="item in fenleis" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
+      <el-form-item label="零售价：" prop="retailPrice">
+        <el-input class="inp" placeholder="请输入零售价" v-model="innerItem.retailPrice"></el-input>
       </el-form-item>
-      <el-form-item label="价格：" prop="price">
-        <el-input class="inp" v-model="editData.price"></el-input>
-      </el-form-item>
-      <el-form-item label="销量：" prop="sales_number">
-        <el-input class="inp" v-model.number="editData.sales_number"></el-input>
-      </el-form-item>
-      <!-- <el-form-item label="销量：">
-        <el-input class="inp" v-model="editData.sales_number"></el-input>
-      </el-form-item> -->
-      <!-- 显示运费 -->
-      <el-form-item label="运费：" prop="shipfee">
-        <el-input class="inp" v-model="editData.shipfee"></el-input>
-      </el-form-item>
-      <!-- <el-form-item label="推荐状态：">
-        <el-radio v-model="pick" label='1'>推荐</el-radio>
-        <el-radio v-model="pick" label='0'>不推荐</el-radio>
-      </el-form-item>
-      <el-form-item label="上架状态：">
-        <el-radio v-model="status" label="1">显示</el-radio>
-        <el-radio v-model="status" label="0">不显示</el-radio>
-      </el-form-item> -->
-      <el-form-item label="排序权重：" prop="sort">
-        <div class="block sliderbox">
-          <el-slider class="slider" v-model="editData.sort" :max="255" show-input></el-slider>
-        </div>
-      </el-form-item>
-      <el-form-item label="上传缩略图：" prop="thumb">
-        <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess" :http-request="uploadSectionFile">
-          <img v-if="src" :src="src" class="avatar img">
-          <i v-else>点击图片重新上传</i>
-          <div></div>
+      <el-form-item label="商品图片：" prop="thumb">
+        <el-upload action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :http-request="uploadSectionFile">
+          <img v-if="innerItem.thumb" :src="innerItem.thumb" class="avatar img">
+          <i v-else class="myiclass">点击上传图片</i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="内容：" prop="content">
-        <ExchangeEdit id="ad" :content="editData.content" @changed="(value)=>{editData.content=value}"></ExchangeEdit>
+      <el-form-item label="图文详情：" prop="content">
+        <Editor id="tinymce" :content="innerItem.content" @changed="(value)=>{innerItem.content=value}" class="quillEditor"></Editor>
       </el-form-item>
     </el-form>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="isDialog = false">取 消</el-button>
-      <el-button type="primary" @click="submit(item)">确 定</el-button>
-    </span>
+    <div slot="footer" align="center" class="dialog-footer">
+      <el-button @click="isDialog= false">取 消</el-button>
+      <el-button type="primary" @click="submit('item')">确 定</el-button>
+    </div>
   </el-dialog>
 </template>
 <script>
-import ExchangeEdit from './ExchangeEdit'
+import Editor from '@/components/RichText'
 
 export default {
   components: {
-    ExchangeEdit
+    Editor
   },
   props: ['item'],
   data() {
     return {
-      pick: this.item.pick + '',
-      status: this.item.status + '',
       isDialog: true,
-      editData: {},
-      src: '',
-      fenlei: '',
-      fenleis: [],
+      innerItem: {
+        name: '',
+        retailPrice: '',
+        thumb: '',
+        content: ''
+      },
       rules: {
-        title: [{ required: true, message: '请输入商品标题!' }],
-        sort: [{ required: true, message: '请选择排序!' }],
-        thumb: [{ required: true, message: '请上传缩略图!' }],
-        price: [{ required: true, message: '请输入价格!' }],
-        sales_number: [
-          { required: true, message: '请输入销量!' },
-          { type: 'number', message: '销量只能输入数字!' }
-        ],
-        content: [{ required: true, message: '请输入规格名称!' }],
-        cate_id: [{ required: true, message: '请选择分类!' }],
-        shipfee: [{ required: true, message: '请输入运费!' }],
-        price: [{ required: true, message: '请输入价格!' }]
+        name: [{ required: true, message: '请输入商品名称' }],
+        retailPrice: [{ required: true, message: '请输入零售价' }],
+        thumb: [{ required: true, message: '请上传缩略图' }],
+        content: [{ required: true, message: '请编写商品详情' }]
       }
     }
   },
   created() {
-    this.getData()
-    this.editData = this.item
-    this.getFenLei()
+    if (this.item.id) {
+      this.innerItem = JSON.parse(JSON.stringify(this.item))
+    }
   },
   methods: {
-    getData() {
-      this.$http
-        .get('/manage/goods/info', {
-          params: {
-            id: this.item.id
-          }
-        })
-        .then(res => {
-          this.editData = res.data.info
-          this.src = this.editData.thumb
-        })
-    },
-    getFenLei() {
-      this.$http.get('/manage/goods_category/lists').then(res => {
-        console.log(res)
-        this.fenleis = res.data.list
-      })
-    },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
-    },
+    // getData() {
+    //   this.$http
+    //     .get('/api/Goods/GetOne', {
+    //       params: {
+    //         goodsId: this.item.id
+    //       }
+    //     })
+    //     .then(res => {
+    //       this.item = res.value
+    //     })
+    // },
 
     uploadSectionFile: function(param) {
       var fileObj = param.file
       var form = new FormData()
-      form.append('file', fileObj)
-      this.$http.post('/manage/image/upload', form).then(res => {
-        this.src = res.data.filepath
-      })
+      form.append('files', fileObj)
+      this.$http
+        .post('/api/Files/UploadFiles?isPublic=true', form)
+        .then(res => {
+          this.innerItem.thumb = res.pathList[0]
+        })
     },
     close() {
       this.$emit('close')
     },
-    submit(item) {
-      this.$refs.editData.validate(valid => {
+    submit() {
+      this.$refs.innerItem.validate(valid => {
         if (!valid) return
-        let params = new URLSearchParams()
-        params.append('title', this.editData.title)
-        params.append('id', this.editData.id)
-        params.append('thumb', this.src)
-        params.append('price', this.editData.price)
-        params.append('sort', this.editData.sort)
-        params.append('cate_id', this.editData.cate_id)
-        params.append('shipfee', this.editData.shipfee)
-        params.append('sales_number', this.editData.sales_number)
-        params.append('price_describe', this.item.editData)
-        params.append('content', this.editData.content)
-
-        this.$http.post('', params).then(res => {
-          if (res.code == 1) {
-            this.$emit('close', '1')
-          }
-        })
+        let params = new FormData()
+        if (this.innerItem.id) {
+          params.append('id', this.innerItem.id)
+        }
+        params.append('Name', this.innerItem.name)
+        params.append('RetailPrice', this.innerItem.retailPrice)
+        params.append('Thumb', this.innerItem.thumb)
+        params.append('Content', this.innerItem.content)
+        if (this.innerItem.id) {
+          this.$http.post('/api/Goods/Modify', params).then(res => {
+            if (res.success) {
+              this.$message({
+                type: 'success',
+                message: '修改成功!'
+              })
+              this.$emit('close', '1')
+            }
+          })
+        } else {
+          this.$http.post('/api/Goods/Create', params).then(res => {
+            if (res.success) {
+              this.$message({
+                type: 'success',
+                message: '添加成功!'
+              })
+              this.$emit('close', '1')
+            }
+          })
+        }
       })
-      // this.$refs.editData.validate(valid => {
-      //   if (!valid) return;
-      // });
     }
   }
 }
 </script>
 <style scoped>
-.block {
-  width: 70%;
-  /* margin-left: 10px */
-}
 img {
   width: 200px;
   height: 200px;
@@ -172,18 +126,16 @@ img {
   width: 90%;
 }
 .quillEditor {
-  margin-bottom: 50px;
-  margin-right: 10%;
+  margin-bottom: 100px;
   height: 400px;
+  width: 700px;
 }
-</style>
-<style scoped>
-i {
-  display: block;
+.myiclass {
   width: 150px;
   height: 150px;
-  border: 1px dashed black;
   line-height: 150px;
+  border: 1px dashed black;
+  display: block;
 }
 </style>
 
