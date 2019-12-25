@@ -67,7 +67,7 @@ export default {
 }
 
 .logo {
-  margin: 40px 15% 20px 15%;
+  margin: 40px 25% 20px 25%;
 }
 .img {
   width: 100%;
